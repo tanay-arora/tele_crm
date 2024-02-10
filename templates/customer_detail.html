@@ -1,0 +1,294 @@
+{% load static %}
+<html>
+    <head>
+        <style>
+            :root {
+                --input-padding-x: 1.5rem;
+                --input-padding-y: 0.75rem;
+              }
+              
+              a,
+              a:link,
+              a:hover {
+                text-decoration: none;
+              }
+              
+              .login,
+              .image {
+                min-height: 100vh;
+              }
+              
+              .bg-image {
+                background-image: url('https://img.freepik.com/free-vector/laptop-with-program-code-isometric-icon-software-development-programming-applications-dark-neon_39422-971.jpg');
+                background-size: cover;
+                background-position: center;
+              }
+              
+              .login-heading {
+                font-weight: 300;
+              }
+              
+              .btn-login {
+                font-size: 0.9rem;
+                letter-spacing: 0.05rem;
+                padding: 0.75rem 1rem;
+                border-radius: 2rem;
+              }
+              
+              .form-label-group {
+                position: relative;
+                margin-bottom: 1rem;
+              }
+              
+              .form-label-group>input,
+              .form-label-group>label {
+                padding: var(--input-padding-y) var(--input-padding-x);
+                height: auto;
+                border-radius: 2rem;
+              }
+              
+              .form-label-group>label {
+                position: absolute;
+                top: 0;
+                left: 0;
+                display: block;
+                width: 100%;
+                margin-bottom: 0;
+                /* Override default `<label>` margin */
+                line-height: 1.5;
+                color: #495057;
+                cursor: text;
+                /* Match the input under the label */
+                border: 1px solid transparent;
+                border-radius: .25rem;
+                transition: all .1s ease-in-out;
+              }
+              
+              .form-label-group input::-webkit-input-placeholder {
+                color: transparent;
+              }
+              
+              .form-label-group input:-ms-input-placeholder {
+                color: transparent;
+              }
+              
+              .form-label-group input::-ms-input-placeholder {
+                color: transparent;
+              }
+              
+              .form-label-group input::-moz-placeholder {
+                color: transparent;
+              }
+              
+              .form-label-group input::placeholder {
+                color: transparent;
+              }
+              
+              .form-label-group input:not(:placeholder-shown) {
+                padding-top: calc(var(--input-padding-y) + var(--input-padding-y) * (2 / 3));
+                padding-bottom: calc(var(--input-padding-y) / 3);
+              }
+              
+              .form-label-group input:not(:placeholder-shown)~label {
+                padding-top: calc(var(--input-padding-y) / 3);
+                padding-bottom: calc(var(--input-padding-y) / 3);
+                font-size: 12px;
+                color: #777;
+              }
+              
+              /* Fallback for Edge
+              -------------------------------------------------- */
+              
+              @supports (-ms-ime-align: auto) {
+                .form-label-group>label {
+                  display: none;
+                }
+                .form-label-group input::-ms-input-placeholder {
+                  color: #777;
+                }
+              }
+              
+              /* Fallback for IE
+              -------------------------------------------------- */
+              
+              @media all and (-ms-high-contrast: none),
+              (-ms-high-contrast: active) {
+                .form-label-group>label {
+                  display: none;
+                }
+                .form-label-group input:-ms-input-placeholder {
+                  color: #777;
+                }
+              }
+        </style>
+    </head>
+    <body>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
+        <div class="container-fluid">
+            <div class="row no-gutter">
+              <div class="d-none d-md-flex col-md-4 col-lg-5 " style="background-color: #495057;">
+                <div style="position:fixed;top: 0;font-size: 24px;line-height: 40px;color: white;">Your Notepad: {{request.user.username}} - <a style="position: fixed;right: 24px;top: 12px;" href="/customer_list">Today's Customer list</a></div>
+               <div style="width: 100%;height: calc(100% - 55px);margin-left: 0px;" class="row no-gutter mt-5">    
+                    <textarea id="notepad" placeholder="Notepad" ></textarea>
+                    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                    <script src="{% static 'notepad.js' %}"></script>
+              </div>
+              </div>
+              <div class="col-md-8 col-lg-7">
+                <div class="login d-flex align-items-center py-5">
+                  <div class="container">
+                    <div class="row">
+                      <div class="col-md-9 col-lg-11 mx-auto">
+                        <div id="reminders" style="max-height: 200px;margin-bottom: 8px;overflow-x: auto;">
+                          
+                        </div>
+                        <h3 class="login-heading mb-4">Add Customer Details</h3>
+                        
+                        <form method="post">
+                          {% csrf_token %}
+                          <div class="form-label-group">
+                            <input type="text" id="which_call" name="which_call" class="form-control" placeholder="Which Call" required autofocus>
+                            <label for="which_call">Which Call</label>
+                          </div>
+          
+                          <div style="display:flex">
+                            <div class="form-label-group col-md-9 col-lg-6 mx-auto">
+                                <input type="text" id="name" name="name" class="form-control" placeholder="Name" required>
+                                <label for="name">Name</label>
+                              </div>
+                              <div class="form-label-group col-md-9 col-lg-6 mx-auto">
+                                <input type="email" id="email" name="email" class="form-control" placeholder="Email address" required>
+                                <label for="email">Email address</label>
+                              </div>
+                          </div>
+                          <div style="display:flex">
+                          <div class="form-label-group col-md-9 col-lg-6 mx-auto" >
+                            <input type="text" id="phone" name="phone" class="form-control" placeholder="Phone" required>
+                            <label for="phone">Phone</label>
+                          </div>
+          
+                          <div class="form-label-group col-md-9 col-lg-6 mx-auto">
+                            <input type="text" id="alternate_phone" name="alternate_phone" class="form-control" placeholder="Alternate Phone">
+                            <label for="alternate_phone">Alternate Phone</label>
+                          </div>
+                        </div>
+          
+                          <div class="form-label-group">
+                            <input id="billing_address" name="billing_address" class="form-control" rows="3" placeholder="Billing Address" required>
+                            <label for="billing_address">Billing Address</label>
+                          </div>
+          
+                          <div class="form-label-group">
+                            <input id="member_of_family" name="member_of_family" class="form-control" rows="3" placeholder="Member of Family">
+                            <label for="member_of_family">Member of Family</label>
+                          </div>
+          
+                          <div class="form-label-group">
+                            <input type="text" id="worth" name="worth" class="form-control" placeholder="Worth" required>
+                            <label for="worth">Worth</label>
+                          </div>
+          
+                          <div class="form-label-group">
+                            <input id="favourable_apps" name="favourable_apps" class="form-control" rows="3" required placeholder="Favourable Apps">
+                            <label for="favourable_apps">Favourable Apps</label>
+                          </div>
+                          <div class="form-label-group">
+                            <input type="datetime-local" id="followup" name="followup" class="form-control" rows="3" placeholder="Next followup">
+                            <label for="followup">Next followup</label>
+                          </div>
+                          <div style="text-align:center">
+                            <button class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2 mt-2" style="width:100%;border-radius:26px;background-color:#495057;border-color:#495057" type="submit">Submit</button>
+
+                          </div>
+          
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <script>
+            
+              function formatDate(timeStr) {
+                  const date = new Date(timeStr);
+                  console.log(date)
+                  const options = { day: 'numeric', month: 'short' };
+                  return date.toLocaleDateString('en-US', options).replace(/,/g, '') + ', ' + date.toLocaleTimeString('en-US', { hour12: true });
+              }
+            function fetchReminders() {
+          
+              var content = $('#notepad').val();
+              var csrftoken = $('input[name="csrfmiddlewaretoken"]').val(); // Get CSRF token
+
+        $.ajax({
+            type: "POST",
+            url: "/get_my_reminders",
+            data: {
+                content: content,
+                csrfmiddlewaretoken: csrftoken, 
+                user_id: '{{ request.user }}' 
+            },
+            success: function(response) {
+              console.log(response)
+              document.getElementById("reminders").innerHTML="";
+              response.map((v,_i)=>{
+                document.getElementById("reminders").innerHTML+=`
+              <div style="color: rgb(255, 68, 0); margin: 4px;padding: 7px 16px;font-size: 16px;border: 2px solid red;border-radius: 12px;"><strong> <span style="color: #495057;">${_i+1}) ${formatDate(v.time)} |</span>  ${v.reminder}</strong> </div>
+              `
+              })
+                console.log("Content saved successfully");
+            },
+            error: function(xhr, errmsg, err) {
+                console.log("Error saving content");
+            }
+        });
+        }
+
+        fetchReminders();
+        setInterval(fetchReminders, 300000);
+
+
+
+              function decodeEntities(encodedString) {
+                  var textArea = document.createElement('textarea');
+                  textArea.innerHTML = encodedString;
+                  return textArea.value;
+              }
+            $(document).ready(function(){
+
+
+              $('#notepad').val(decodeEntities(`{{ notes.notepad | safe }}`))
+    // Function to auto-save content to Django backend
+    function autoSaveContent() {
+        var content = $('#notepad').val();
+        var csrftoken = $('input[name="csrfmiddlewaretoken"]').val(); // Get CSRF token
+
+        $.ajax({
+            type: "POST",
+            url: "/save_content/",
+            data: {
+                content: content,
+                csrfmiddlewaretoken: csrftoken, 
+                user_id: '{{ request.user }}' 
+            },
+            success: function(response) {
+                console.log("Content saved successfully");
+            },
+            error: function(xhr, errmsg, err) {
+                console.log("Error saving content");
+            }
+        });
+    }
+
+                // Auto-save content on keyup event
+                $('#notepad').on('keyup', function(){
+                    autoSaveContent();
+                });
+            });
+
+          </script>
+    </body>
+</html>
